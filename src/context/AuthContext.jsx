@@ -2,6 +2,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
+const PASSWORDS_KEY = 'smit_passwords';
+
+const readPasswords = () => {
+  try {
+    return JSON.parse(localStorage.getItem(PASSWORDS_KEY) || '{}');
+  } catch {
+    return {};
+  }
+};
+
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(() => {
     try {
@@ -25,33 +35,42 @@ export const AuthProvider = ({ children }) => {
     }
   }, [currentUser]);
 
-  // Login handler
+  // Student ne "Create Password" se jo password banaya usay save karta hai (demo only, localStorage)
+  const createPassword = (identifier, password) => {
+    const all = readPasswords();
+    all[identifier] = password;
+    try {
+      localStorage.setItem(PASSWORDS_KEY, JSON.stringify(all));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  // Returns { ok: boolean, error?: string }
   const login = (role, identifier, password) => {
-    const userData = {
+    const saved = readPasswords()[identifier];
+    if (role === 'student' && saved && saved !== password) {
+      return { ok: false, error: 'Password ghalat hai. Dobara try karein.' };
+    }
+    setCurrentUser({
       role, // 'student' | 'trainer' | 'admin'
       identifier,
       isLoggedIn: true,
-      loginTime: new Date().toISOString()
-    };
-    setCurrentUser(userData);
-    return true;
+      loginTime: new Date().toISOString(),
+    });
+    return { ok: true };
   };
 
-  // Logout handler
   const logout = () => {
     setCurrentUser(null);
-    localStorage.removeItem('smit_auth_user');
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider value={{ currentUser, login, logout, createPassword }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Export useAuth hook
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
