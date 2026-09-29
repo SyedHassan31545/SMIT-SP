@@ -331,7 +331,10 @@ export default function CourseDashboard({ onNavigate, onBackToCourses }) {
         </main>
       </div>
 
-      <ProfileModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <ProfileModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
