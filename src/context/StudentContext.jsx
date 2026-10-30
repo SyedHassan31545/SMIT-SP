@@ -175,14 +175,14 @@ const DATA_VERSION = 2;
 
 const DEFAULT_STUDENT = {
   dataVersion: DATA_VERSION,
-  name: 'Muhammad Hassan',
-  rollNumber: '770860',
+  name: 'Syed Hassan Ahmed',
+  rollNumber: '359532',
   batch: '20',
   campus: 'Zaitoon Ashraf IT Park',
   city: 'Karachi',
   courseName: 'Modern Web Application Development',
   progress: 75,
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+  avatar: 'https://images.unsplash.com/photo-1488161628813-04466f872be2?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   // Backward compatible keys for Dashboard
   attendance: { attended: 92, total: 113 },
   assignment: { completed: 14, total: 18 },
